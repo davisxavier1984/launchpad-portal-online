@@ -1,11 +1,12 @@
+
 import { ChevronRight } from "lucide-react";
 
 const Footer = () => {
   const solutions = [
-    { name: "Sistemas de Gestão", href: "#" },
-    { name: "Análise de Dados", href: "#" },
-    { name: "Consultoria", href: "#" },
-    { name: "Segurança da Informação", href: "#" }
+    { name: "Consultoria E-SUS AB", href: "#" },
+    { name: "Hospedagem em Nuvem", href: "#" },
+    { name: "Treinamento", href: "#" },
+    { name: "Suporte Técnico", href: "#" }
   ];
 
   const company = [
@@ -36,17 +37,44 @@ const Footer = () => {
               Desenvolvemos soluções inovadoras para gestão em saúde e educação, 
               transformando dados em estratégias para o sucesso da sua instituição.
             </p>
-            <div className="flex space-x-4">
-              {['facebook', 'twitter', 'instagram', 'linkedin'].map((social) => (
-                <a
-                  key={social}
-                  href="#"
-                  className="w-10 h-10 bg-white hover:bg-brand-light/10 rounded-full flex items-center justify-center border border-gray-200 transition-colors"
-                >
-                  <span className="sr-only">{social}</span>
-                  <div className="w-5 h-5 bg-brand-light rounded"></div>
+            
+            <div className="space-y-3 mb-6">
+              <p className="flex items-start">
+                <span className="font-semibold mr-2">Email:</span> 
+                <a href="mailto:contato@maisgestor.com.br" className="text-brand-medium hover:underline">
+                  contato@maisgestor.com.br
                 </a>
-              ))}
+              </p>
+              <p className="flex items-start">
+                <span className="font-semibold mr-2">Endereço:</span> 
+                <span>Av. Tecnologia, 1234 - Centro, Cidade Exemplo - UF</span>
+              </p>
+              <div>
+                <p className="font-semibold mb-1">Horário de atendimento:</p>
+                <p>Segunda a Sexta: 8:00 - 17:30</p>
+                <p>Sábado e Domingo: Fechado</p>
+              </div>
+            </div>
+            
+            <div className="flex space-x-4">
+              <a
+                href="#"
+                className="w-10 h-10 bg-white hover:bg-brand-light/10 rounded-full flex items-center justify-center border border-gray-200 transition-colors"
+                aria-label="Facebook"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-brand-medium">
+                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                </svg>
+              </a>
+              <a
+                href="#"
+                className="w-10 h-10 bg-white hover:bg-brand-light/10 rounded-full flex items-center justify-center border border-gray-200 transition-colors"
+                aria-label="WhatsApp"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-brand-medium">
+                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                </svg>
+              </a>
             </div>
           </div>
 
