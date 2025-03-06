@@ -31,7 +31,7 @@ const Footer = () => {
             <img
               src="/lovable-uploads/21e70c37-e204-4d4d-8e9a-0ab75565ee71.png"
               alt="Mais Gestor Logo"
-              className="h-16 mb-6" /* Increased from h-12 */
+              className="h-[240px] mb-6" /* Increased to exactly 240px */
             />
             <p className="text-gray-600 mb-6 max-w-md">
               Desenvolvemos soluções inovadoras para gestão em saúde e educação, 

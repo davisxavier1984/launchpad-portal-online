@@ -46,7 +46,7 @@ const Header = () => {
           <img
             src="/lovable-uploads/21e70c37-e204-4d4d-8e9a-0ab75565ee71.png"
             alt="Mais Gestor Logo"
-            className="h-14 md:h-16" /* Increased from h-10 md:h-12 */
+            className="h-[240px] md:h-[240px]" /* Increased to exactly 240px */
           />
         </a>
 
