@@ -1,4 +1,3 @@
-
 import { ChevronRight } from "lucide-react";
 
 const Footer = () => {
@@ -31,7 +30,7 @@ const Footer = () => {
             <img
               src="/lovable-uploads/21e70c37-e204-4d4d-8e9a-0ab75565ee71.png"
               alt="Mais Gestor Logo"
-              className="h-[240px] mb-6" /* Increased to exactly 240px */
+              className="h-20 mb-6"
             />
             <p className="text-gray-600 mb-6 max-w-md">
               Desenvolvemos soluções inovadoras para gestão em saúde e educação, 
@@ -45,7 +44,6 @@ const Footer = () => {
                   className="w-10 h-10 bg-white hover:bg-brand-light/10 rounded-full flex items-center justify-center border border-gray-200 transition-colors"
                 >
                   <span className="sr-only">{social}</span>
-                  {/* Placeholder para ícones de redes sociais */}
                   <div className="w-5 h-5 bg-brand-light rounded"></div>
                 </a>
               ))}
