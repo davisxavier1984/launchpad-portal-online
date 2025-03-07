@@ -1,5 +1,5 @@
 
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Phone, Mail, MapPin } from "lucide-react";
 
 const Footer = () => {
   const solutions = [
@@ -40,14 +40,23 @@ const Footer = () => {
             
             <div className="space-y-3 mb-6">
               <p className="flex items-start">
-                <span className="font-semibold mr-2">Email:</span> 
-                <a href="mailto:contato@maisgestor.com.br" className="text-brand-medium hover:underline">
-                  contato@maisgestor.com.br
+                <Mail className="h-5 w-5 text-brand-medium mr-2 flex-shrink-0 mt-1" />
+                <a href="mailto:suportemaisgestor@gmail.com" className="text-brand-medium hover:underline">
+                  suportemaisgestor@gmail.com
                 </a>
               </p>
               <p className="flex items-start">
-                <span className="font-semibold mr-2">Endereço:</span> 
-                <span>Av. Tecnologia, 1234 - Centro, Cidade Exemplo - UF</span>
+                <Phone className="h-5 w-5 text-brand-medium mr-2 flex-shrink-0 mt-1" />
+                <span>
+                  <a href="tel:+557133511964" className="hover:underline">(71) 3351-1964</a>
+                  <br />
+                  <a href="tel:+5571999891993" className="hover:underline">(71) 99989-1993</a> (WhatsApp)
+                </span>
+              </p>
+              <p className="flex items-start">
+                <MapPin className="h-5 w-5 text-brand-medium mr-2 flex-shrink-0 mt-1" /> 
+                <span>Avenida Vasco da Gama, 830 - Edif Moka Sala 202<br />
+                Horto Florestal, Salvador - BA, 40295-000</span>
               </p>
               <div>
                 <p className="font-semibold mb-1">Horário de atendimento:</p>
@@ -67,7 +76,7 @@ const Footer = () => {
                 </svg>
               </a>
               <a
-                href="#"
+                href="https://wa.me/5571999891993"
                 className="w-10 h-10 bg-white hover:bg-brand-light/10 rounded-full flex items-center justify-center border border-gray-200 transition-colors"
                 aria-label="WhatsApp"
               >

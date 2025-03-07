@@ -1,7 +1,15 @@
 
 import { Button } from "@/components/ui/button";
+import { ChevronDown } from "lucide-react";
 
 const Hero = () => {
+  const scrollToContact = () => {
+    const contactSection = document.getElementById('contact');
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section
       id="home"
@@ -22,10 +30,22 @@ const Hero = () => {
           <p className="text-white/90 text-lg md:text-xl mb-10 max-w-3xl mx-auto leading-relaxed animate-fade-in-up">
             Treinamento e consultoria especializada para Atenção Primária. Resolvemos todos os problemas relacionados ao sistema E-SUS AB.
           </p>
-          <div className="flex justify-center animate-fade-in-up">
-            <Button className="bg-brand-gradient hover:opacity-90 transition-opacity text-base py-6 px-8 text-lg font-semibold">
+          <div className="flex flex-col items-center animate-fade-in-up">
+            <Button 
+              onClick={scrollToContact}
+              className="bg-brand-gradient hover:opacity-90 transition-opacity text-base py-6 px-8 text-lg font-semibold"
+            >
               AGENDE UMA VISITA
             </Button>
+            
+            <a 
+              href="#contact" 
+              className="mt-12 flex flex-col items-center text-white/70 hover:text-white transition-colors"
+              aria-label="Scroll para contato"
+            >
+              <span className="text-sm mb-2">Saiba mais</span>
+              <ChevronDown className="animate-bounce" />
+            </a>
           </div>
         </div>
       </div>
