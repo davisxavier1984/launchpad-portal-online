@@ -52,13 +52,56 @@ npm run dev
 
 ## What technologies are used for this project?
 
-This project is built with .
+Este projeto foi desenvolvido para a **Mais Gestor**, empresa especializada em consultoria para sistemas de saúde do DATASUS, E-SUS AB e treinamentos para profissionais de saúde.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Funcionalidades
+
+### 🏠 Site Institucional
+- Landing page com informações sobre serviços
+- Seção de benefícios e consultoria especializada
+- Formulário de contato
+- Design responsivo e moderno
+
+### 📰 Sistema de Notícias
+- **Área Pública**: Exibição de notícias organizadas por categorias
+- **Área Administrativa**: CRUD completo para gerenciar notícias
+- **Categorias**: Geral, E-SUS, DATASUS, Treinamentos
+- **Recursos**: Upload de imagens, ativação/desativação, filtros
+
+### 🔗 Navegação
+- `/` - Página principal
+- `/admin` - Área administrativa de notícias
+- `#news` - Seção de notícias na página principal
+
+## Tecnologias Utilizadas
+
+- **Frontend**: React 18 + TypeScript
+- **Build Tool**: Vite
+- **UI Components**: shadcn/ui + Radix UI
+- **Styling**: Tailwind CSS
+- **Routing**: React Router DOM
+- **State Management**: React Hooks + localStorage
+- **Forms**: React Hook Form + Zod
+- **Icons**: Lucide React
+
+## Documentação
+
+- **[Sistema de Notícias](docs/noticias.md)**: Guia completo sobre como usar e configurar o sistema de notícias
+
+## Como Usar
+
+### Desenvolvimento Local
+
+1. Clone o repositório
+2. Instale as dependências: `npm install`
+3. Inicie o servidor de desenvolvimento: `npm run dev`
+4. Acesse: `http://localhost:5173`
+
+### Área Administrativa
+
+1. Acesse `/admin` ou clique no link "Admin" no cabeçalho
+2. Gerencie notícias: criar, editar, ativar/desativar, excluir
+3. Organize por categorias com cores personalizadas
 
 ## How can I deploy this project?
 
