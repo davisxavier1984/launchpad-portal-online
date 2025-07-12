@@ -44,7 +44,7 @@ const News = () => {
   };
 
   return (
-    <section id="news" className="py-24 bg-gray-50">
+    <section id="news" className="py-24 bg-gray-50 section-scale">
       <div className="container mx-auto container-padding">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="section-heading">
@@ -74,7 +74,7 @@ const News = () => {
             <TabsContent value={selectedCategory} className="space-y-8">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {displayedNews.slice(0, 6).map((news) => (
-                  <Card key={news.id} className="glass-card hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer">
+                  <Card key={news.id} className="glass-card hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer card-zoom-scroll zoom-on-scroll">
                     <div className="relative">
                       {news.imageUrl && (
                         <>

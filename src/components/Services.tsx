@@ -23,7 +23,7 @@ const Services = () => {
 
   return (
     <>
-      <section id="services" className="py-24 relative overflow-hidden">
+      <section id="services" className="py-24 relative overflow-hidden section-scale">
         <div className="absolute inset-0 bg-gradient-to-b from-blue-50/50 to-white pointer-events-none"></div>
         
         <div className="container mx-auto relative z-10 container-padding">
@@ -36,7 +36,7 @@ const Services = () => {
             </p>
           </div>
 
-          <div className="bg-white/80 backdrop-blur-md shadow-lg rounded-xl p-8 mb-16">
+          <div className="bg-white/80 backdrop-blur-md shadow-lg rounded-xl p-8 mb-16 card-zoom-scroll">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-4">
                 <div className="flex items-start gap-3">
@@ -104,7 +104,7 @@ const Services = () => {
             {services.map((service, index) => (
               <div 
                 key={index} 
-                className="glass-card rounded-xl p-8 transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+                className="glass-card rounded-xl p-8 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 card-zoom-scroll zoom-on-scroll"
               >
                 <div className="mb-5 inline-flex items-center justify-center w-16 h-16 rounded-lg bg-brand-light/10">
                   {service.icon}
@@ -120,9 +120,9 @@ const Services = () => {
         </div>
       </section>
 
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-gray-50 section-scale">
         <div className="container mx-auto container-padding">
-          <div className="glass-card rounded-xl p-8 max-w-4xl mx-auto">
+          <div className="glass-card rounded-xl p-8 max-w-4xl mx-auto card-zoom-scroll">
             <h2 className="text-2xl md:text-3xl font-bold mb-6 text-center">Deixe com a gente</h2>
             <p className="text-gray-600 text-lg text-center">
               Com a nossa equipe de consultores, iremos realizar uma consultoria completa na sua rede de Atenção Básica e hospitalar, 

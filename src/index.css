@@ -153,3 +153,134 @@ html {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* Zoom on scroll effects */
+.zoom-on-scroll {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.zoom-on-scroll.zoom-in {
+  transform: scale(1.05);
+}
+
+.zoom-on-scroll.zoom-out {
+  transform: scale(0.95);
+}
+
+/* Parallax zoom container */
+.parallax-zoom {
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
+}
+
+/* Hero section zoom effect */
+.hero-zoom {
+  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
+}
+
+/* Hero video background */
+.hero-video {
+  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
+}
+
+/* Video optimization for better performance */
+video {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Ensure video covers properly on all devices */
+.hero-video video {
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Video loading state */
+.hero-video video::-webkit-media-controls {
+  display: none !important;
+}
+
+.hero-video video::-webkit-media-controls-panel {
+  display: none !important;
+}
+
+/* Fallback for when video fails to load */
+.hero-video video + .video-fallback {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Card zoom on scroll */
+.card-zoom-scroll {
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform, opacity;
+}
+
+.card-zoom-scroll.in-view {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+}
+
+.card-zoom-scroll.out-view {
+  transform: scale(0.95) translateY(20px);
+  opacity: 0.7;
+}
+
+/* Section scale effects */
+.section-scale {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+  transform-origin: center center;
+}
+
+.section-scale.scale-up {
+  transform: scale(1.02);
+}
+
+.section-scale.scale-down {
+  transform: scale(0.98);
+}
+
+/* Image zoom on scroll */
+.image-zoom-scroll {
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
+  overflow: hidden;
+}
+
+.image-zoom-scroll img {
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
+}
+
+.image-zoom-scroll.zoom img {
+  transform: scale(1.1);
+}
+
+/* Text zoom effects */
+.text-zoom-scroll {
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform, opacity;
+}
+
+.text-zoom-scroll.zoom-text {
+  transform: scale(1.05);
+  opacity: 1;
+}
+
+.text-zoom-scroll.fade-text {
+  transform: scale(0.95);
+  opacity: 0.8;
+}

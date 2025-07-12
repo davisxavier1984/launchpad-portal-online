@@ -28,7 +28,7 @@ const Benefits = () => {
   ];
 
   return (
-    <section id="benefits" className="py-24 relative overflow-hidden">
+    <section id="benefits" className="py-24 relative overflow-hidden section-scale">
       <div className="absolute top-0 right-0 w-full h-full transform">
         <div className="absolute -bottom-32 -right-32 w-96 h-96 rounded-full bg-brand-light/5 blur-3xl"></div>
         <div className="absolute top-0 -left-32 w-96 h-96 rounded-full bg-brand-medium/5 blur-3xl"></div>
@@ -62,7 +62,7 @@ const Benefits = () => {
             </Button>
           </div>
           
-          <div className="relative">
+          <div className="relative card-zoom-scroll">
             <div className="absolute inset-0 bg-gradient-to-r from-brand-light/20 to-brand-medium/20 rounded-3xl transform rotate-3 blur-sm"></div>
             <div className="relative bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
               <div className="p-8">
@@ -72,7 +72,7 @@ const Benefits = () => {
                   {features.map((feature, index) => (
                     <div 
                       key={index} 
-                      className="p-6 bg-gray-50 rounded-xl hover:bg-brand-light/5 transition-colors"
+                      className="p-6 bg-gray-50 rounded-xl hover:bg-brand-light/5 transition-colors zoom-on-scroll"
                     >
                       <h4 className="text-lg font-semibold mb-2">{feature.title}</h4>
                       <p className="text-gray-600">{feature.description}</p>
