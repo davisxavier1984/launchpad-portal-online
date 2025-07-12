@@ -108,9 +108,6 @@ const Header = () => {
               )}
             </div>
           ))}
-          <Button className="bg-brand-gradient hover:opacity-90 transition-opacity ml-2">
-            Fale Conosco
-          </Button>
         </nav>
 
         {/* Mobile menu button */}
@@ -178,9 +175,6 @@ const Header = () => {
               )}
             </div>
           ))}
-          <Button className="bg-brand-gradient hover:opacity-90 transition-opacity w-full mt-4">
-            Fale Conosco
-          </Button>
         </nav>
       </div>
     </header>
