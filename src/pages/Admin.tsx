@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 import { useNews } from "@/hooks/useNews";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,13 +13,14 @@ import { Switch } from "@/components/ui/switch";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus, Edit, Trash2, Eye, EyeOff, ArrowLeft, Save, Menu as MenuIcon, Newspaper } from "lucide-react";
+import { Plus, Edit, Trash2, Eye, EyeOff, ArrowLeft, Save, Menu as MenuIcon, Newspaper, LogOut } from "lucide-react";
 import { NewsItem } from "@/types/news";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import MenuAdmin from "@/components/MenuAdmin";
 
 const Admin = () => {
+  const { signOut } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
   const { news, categories, addNews, updateNews, deleteNews, loading } = useNews();
@@ -128,6 +130,10 @@ const Admin = () => {
     return category?.color || '#3b82f6';
   };
 
+  const handleSignOut = async () => {
+    await signOut();
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -164,8 +170,14 @@ const Admin = () => {
               <h1 className="text-2xl font-bold text-gray-900">Painel Administrativo</h1>
             </div>
             
-            <div className="text-sm text-gray-500">
-              Gerencie notícias e configure o menu de navegação do site
+            <div className="flex items-center gap-4">
+              <div className="text-sm text-gray-500">
+                Gerencie notícias e configure o menu de navegação do site
+              </div>
+              <Button variant="outline" onClick={handleSignOut}>
+                <LogOut className="h-4 w-4 mr-2" />
+                Sair
+              </Button>
             </div>
             
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>

@@ -14,13 +14,117 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      admin_users: {
+        Row: {
+          created_at: string | null
+          email: string
+          id: string
+          is_active: boolean | null
+          last_login: string | null
+          name: string
+          password_hash: string
+          role: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          id?: string
+          is_active?: boolean | null
+          last_login?: string | null
+          name: string
+          password_hash: string
+          role?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          id?: string
+          is_active?: boolean | null
+          last_login?: string | null
+          name?: string
+          password_hash?: string
+          role?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      categories: {
+        Row: {
+          color: string
+          created_at: string | null
+          id: string
+          name: string
+          updated_at: string | null
+        }
+        Insert: {
+          color?: string
+          created_at?: string | null
+          id?: string
+          name: string
+          updated_at?: string | null
+        }
+        Update: {
+          color?: string
+          created_at?: string | null
+          id?: string
+          name?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      news: {
+        Row: {
+          author: string
+          category: string
+          content: string
+          created_at: string | null
+          excerpt: string
+          id: string
+          image_url: string | null
+          is_active: boolean | null
+          published_at: string | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          author: string
+          category: string
+          content: string
+          created_at?: string | null
+          excerpt: string
+          id?: string
+          image_url?: string | null
+          is_active?: boolean | null
+          published_at?: string | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          author?: string
+          category?: string
+          content?: string
+          created_at?: string | null
+          excerpt?: string
+          id?: string
+          image_url?: string | null
+          is_active?: boolean | null
+          published_at?: string | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      is_admin_user: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never

@@ -1,5 +1,7 @@
 
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Services from "@/components/Services";
@@ -41,6 +43,13 @@ const Index = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
+      <div className="fixed top-4 right-4 z-50">
+        <Link to="/login">
+          <Button variant="outline" size="sm">
+            Admin
+          </Button>
+        </Link>
+      </div>
       <main>
         <Hero />
         <Services />
