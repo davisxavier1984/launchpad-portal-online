@@ -122,11 +122,6 @@ export default function Login() {
             </Button>
           </form>
 
-          <div className="mt-6 p-4 bg-muted rounded-lg">
-            <p className="text-sm text-muted-foreground mb-2">Credenciais de teste:</p>
-            <p className="text-sm font-mono">admin@maisgestor.com.br</p>
-            <p className="text-sm font-mono">Admin123!@#</p>
-          </div>
         </CardContent>
       </Card>
     </div>
