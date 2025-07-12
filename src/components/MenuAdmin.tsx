@@ -21,6 +21,7 @@ const MenuAdmin = () => {
   const {
     menuItems,
     loading,
+    updateTrigger,
     addMenuItem,
     updateMenuItem,
     deleteMenuItem,
@@ -56,10 +57,10 @@ const MenuAdmin = () => {
   // Move all useMemo and useCallback hooks before any functions or early returns
   const sortedMenuItems = useMemo(() => {
     return [...menuItems].sort((a, b) => a.order - b.order);
-  }, [menuItems]);
+  }, [menuItems, updateTrigger]);
 
-  const handleMoveUp = useCallback((id: string) => {
-    const success = moveItemUp(id);
+  const handleMoveUp = useCallback(async (id: string) => {
+    const success = await moveItemUp(id);
     if (success) {
       toast({
         title: "Sucesso",
@@ -68,8 +69,8 @@ const MenuAdmin = () => {
     }
   }, [moveItemUp, toast]);
 
-  const handleMoveDown = useCallback((id: string) => {
-    const success = moveItemDown(id);
+  const handleMoveDown = useCallback(async (id: string) => {
+    const success = await moveItemDown(id);
     if (success) {
       toast({
         title: "Sucesso", 
@@ -87,7 +88,7 @@ const MenuAdmin = () => {
       }
     });
     return result;
-  }, [sortedMenuItems]);
+  }, [sortedMenuItems, updateTrigger]);
 
   const resetForm = () => {
     setFormData({
@@ -111,7 +112,7 @@ const MenuAdmin = () => {
     setSelectedParentId("");
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!formData.name || !formData.href) {
@@ -123,25 +124,32 @@ const MenuAdmin = () => {
       return;
     }
 
-    if (editingMenuItem) {
-      updateMenuItem(editingMenuItem.id, formData);
+    try {
+      if (editingMenuItem) {
+        await updateMenuItem(editingMenuItem.id, formData);
+        toast({
+          title: "Sucesso",
+          description: "Item do menu atualizado com sucesso!",
+        });
+      } else {
+        await addMenuItem(formData);
+        toast({
+          title: "Sucesso",
+          description: "Item do menu criado com sucesso!",
+        });
+      }
+      resetForm();
+      setIsDialogOpen(false);
+    } catch (error) {
       toast({
-        title: "Sucesso",
-        description: "Item do menu atualizado com sucesso!",
-      });
-    } else {
-      addMenuItem(formData);
-      toast({
-        title: "Sucesso",
-        description: "Item do menu criado com sucesso!",
+        title: "Erro",
+        description: "Erro ao salvar item do menu.",
+        variant: "destructive",
       });
     }
-
-    resetForm();
-    setIsDialogOpen(false);
   };
 
-  const handleSubSubmit = (e: React.FormEvent) => {
+  const handleSubSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!subFormData.name || !subFormData.href || !selectedParentId) {
@@ -153,22 +161,29 @@ const MenuAdmin = () => {
       return;
     }
 
-    if (editingSubMenuItem) {
-      updateSubMenuItem(selectedParentId, editingSubMenuItem.subItem.id, subFormData);
+    try {
+      if (editingSubMenuItem) {
+        await updateSubMenuItem(selectedParentId, editingSubMenuItem.subItem.id, subFormData);
+        toast({
+          title: "Sucesso",
+          description: "Subitem atualizado com sucesso!",
+        });
+      } else {
+        await addSubMenuItem(selectedParentId, subFormData);
+        toast({
+          title: "Sucesso",
+          description: "Subitem criado com sucesso!",
+        });
+      }
+      resetSubForm();
+      setIsSubMenuDialogOpen(false);
+    } catch (error) {
       toast({
-        title: "Sucesso",
-        description: "Subitem atualizado com sucesso!",
-      });
-    } else {
-      addSubMenuItem(selectedParentId, subFormData);
-      toast({
-        title: "Sucesso",
-        description: "Subitem criado com sucesso!",
+        title: "Erro",
+        description: "Erro ao salvar subitem do menu.",
+        variant: "destructive",
       });
     }
-
-    resetSubForm();
-    setIsSubMenuDialogOpen(false);
   };
 
   const handleEdit = (menuItem: MenuItem) => {
@@ -195,44 +210,84 @@ const MenuAdmin = () => {
     setIsSubMenuDialogOpen(true);
   };
 
-  const handleDelete = (id: string) => {
-    deleteMenuItem(id);
-    toast({
-      title: "Sucesso",
-      description: "Item do menu excluído com sucesso!",
-    });
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteMenuItem(id);
+      toast({
+        title: "Sucesso",
+        description: "Item do menu excluído com sucesso!",
+      });
+    } catch (error) {
+      toast({
+        title: "Erro",
+        description: "Erro ao excluir item do menu.",
+        variant: "destructive",
+      });
+    }
   };
 
-  const handleSubDelete = (parentId: string, subId: string) => {
-    deleteSubMenuItem(parentId, subId);
-    toast({
-      title: "Sucesso",
-      description: "Subitem excluído com sucesso!",
-    });
+  const handleSubDelete = async (parentId: string, subId: string) => {
+    try {
+      await deleteSubMenuItem(parentId, subId);
+      toast({
+        title: "Sucesso",
+        description: "Subitem excluído com sucesso!",
+      });
+    } catch (error) {
+      toast({
+        title: "Erro",
+        description: "Erro ao excluir subitem do menu.",
+        variant: "destructive",
+      });
+    }
   };
 
-  const toggleActive = (id: string, currentStatus: boolean) => {
-    updateMenuItem(id, { isActive: !currentStatus });
-    toast({
-      title: "Sucesso",
-      description: `Item ${!currentStatus ? 'ativado' : 'desativado'} com sucesso!`,
-    });
+  const toggleActive = async (id: string, currentStatus: boolean) => {
+    try {
+      await updateMenuItem(id, { isActive: !currentStatus });
+      toast({
+        title: "Sucesso",
+        description: `Item ${!currentStatus ? 'ativado' : 'desativado'} com sucesso!`,
+      });
+    } catch (error) {
+      toast({
+        title: "Erro",
+        description: "Erro ao alterar status do item.",
+        variant: "destructive",
+      });
+    }
   };
 
-  const toggleSubActive = (parentId: string, subId: string, currentStatus: boolean) => {
-    updateSubMenuItem(parentId, subId, { isActive: !currentStatus });
-    toast({
-      title: "Sucesso",
-      description: `Subitem ${!currentStatus ? 'ativado' : 'desativado'} com sucesso!`,
-    });
+  const toggleSubActive = async (parentId: string, subId: string, currentStatus: boolean) => {
+    try {
+      await updateSubMenuItem(parentId, subId, { isActive: !currentStatus });
+      toast({
+        title: "Sucesso",
+        description: `Subitem ${!currentStatus ? 'ativado' : 'desativado'} com sucesso!`,
+      });
+    } catch (error) {
+      toast({
+        title: "Erro",
+        description: "Erro ao alterar status do subitem.",
+        variant: "destructive",
+      });
+    }
   };
 
-  const handleResetToDefault = () => {
-    resetToDefault();
-    toast({
-      title: "Sucesso",
-      description: "Menu restaurado para configuração padrão!",
-    });
+  const handleResetToDefault = async () => {
+    try {
+      await resetToDefault();
+      toast({
+        title: "Sucesso",
+        description: "Menu restaurado para configuração padrão!",
+      });
+    } catch (error) {
+      toast({
+        title: "Erro",
+        description: "Erro ao restaurar configuração padrão.",
+        variant: "destructive",
+      });
+    }
   };
 
   if (loading) {
@@ -390,7 +445,7 @@ const MenuAdmin = () => {
                   </Button>
                 </div>
               ) : (
-                <Table key={`menu-items-table-${menuItems.length}`}>
+                <Table key={`menu-items-table-${updateTrigger}-${menuItems.map(item => `${item.id}-${item.order}`).join('-')}`}>
                   <TableHeader>
                     <TableRow>
                       <TableHead>Ordem</TableHead>
@@ -629,7 +684,7 @@ const MenuAdmin = () => {
                           Nenhum subitem cadastrado para este menu.
                         </p>
                       ) : (
-                        <Table key={`submenu-items-table-${parentItem.id}`}>
+                        <Table key={`submenu-items-table-${parentItem.id}-${parentItem.submenu?.map(sub => `${sub.id}-${sub.order}`).join('-') || 'empty'}`}>
                           <TableHeader>
                             <TableRow>
                               <TableHead>Ordem</TableHead>

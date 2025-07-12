@@ -108,13 +108,6 @@ const Header = () => {
               )}
             </div>
           ))}
-          <Button 
-            variant="ghost" 
-            onClick={() => window.location.href = '/admin'}
-            className="text-sm text-gray-500 hover:text-brand-medium"
-          >
-            Admin
-          </Button>
           <Button className="bg-brand-gradient hover:opacity-90 transition-opacity ml-2">
             Fale Conosco
           </Button>
@@ -185,13 +178,6 @@ const Header = () => {
               )}
             </div>
           ))}
-          <Button 
-            variant="ghost" 
-            onClick={() => window.location.href = '/admin'}
-            className="text-sm text-gray-500 hover:text-brand-medium w-full"
-          >
-            Área Administrativa
-          </Button>
           <Button className="bg-brand-gradient hover:opacity-90 transition-opacity w-full mt-4">
             Fale Conosco
           </Button>

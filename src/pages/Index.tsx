@@ -43,13 +43,6 @@ const Index = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
-      <div className="fixed top-4 right-4 z-50">
-        <Link to="/login">
-          <Button variant="outline" size="sm">
-            Admin
-          </Button>
-        </Link>
-      </div>
       <main>
         <Hero />
         <Services />

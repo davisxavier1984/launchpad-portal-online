@@ -77,21 +77,31 @@ const News = () => {
                   <Card key={news.id} className="glass-card hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer">
                     <div className="relative">
                       {news.imageUrl && (
-                        <img 
-                          src={news.imageUrl} 
-                          alt={news.title}
-                          className="w-full h-48 object-cover rounded-t-lg"
-                        />
+                        <>
+                          <img 
+                            src={news.imageUrl} 
+                            alt={news.title}
+                            className="w-full h-48 object-cover rounded-t-lg"
+                          />
+                          <Badge 
+                            className="absolute top-4 left-4 text-white"
+                            style={{ backgroundColor: getCategoryColor(news.category) }}
+                          >
+                            {news.category}
+                          </Badge>
+                        </>
                       )}
-                      <Badge 
-                        className="absolute top-4 left-4 text-white"
-                        style={{ backgroundColor: getCategoryColor(news.category) }}
-                      >
-                        {news.category}
-                      </Badge>
                     </div>
                     
                     <CardHeader>
+                      {!news.imageUrl && (
+                        <Badge 
+                          className="text-white w-fit mb-2"
+                          style={{ backgroundColor: getCategoryColor(news.category) }}
+                        >
+                          {news.category}
+                        </Badge>
+                      )}
                       <CardTitle className="text-lg line-clamp-2 hover:text-brand-medium transition-colors">
                         {news.title}
                       </CardTitle>
