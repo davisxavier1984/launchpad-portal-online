@@ -208,6 +208,9 @@ export const useNews = () => {
         const newItem: NewsItem = {
           ...validatedData,
           id: Date.now().toString(),
+          publishedAt: newsItem.publishedAt || new Date(),
+          isActive: validatedData.isActive ?? true,
+          category: validatedData.category || 'Geral',
         };
         const updatedNews = [...news, newItem];
         setNews(updatedNews);
@@ -227,8 +230,8 @@ export const useNews = () => {
               image_url: validatedData.imageUrl || null,
               category: validatedData.category,
               author: validatedData.author,
-              is_active: validatedData.isActive,
-              published_at: validatedData.publishedAt.toISOString()
+              is_active: validatedData.isActive ?? true,
+              published_at: (newsItem.publishedAt || new Date()).toISOString()
             }
           ])
           .select()
@@ -256,6 +259,9 @@ export const useNews = () => {
         const newItem: NewsItem = {
           ...validatedData,
           id: Date.now().toString(),
+          publishedAt: newsItem.publishedAt || new Date(),
+          isActive: validatedData.isActive ?? true,
+          category: validatedData.category || 'Geral',
         };
         setNews(prev => [newItem, ...prev]);
       }

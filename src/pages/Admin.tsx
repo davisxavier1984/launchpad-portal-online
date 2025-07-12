@@ -168,7 +168,7 @@ const Admin = () => {
               Gerencie notícias e configure o menu de navegação do site
             </div>
             
-            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen} className="hidden">
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <DialogTrigger asChild className="hidden">
                 <Button className="hidden">
                   Nova Notícia
