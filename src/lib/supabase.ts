@@ -1,13 +1,12 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+const FALLBACK_SUPABASE_URL = "https://idujtvokslevjyrnmcnq.supabase.co"
+const FALLBACK_SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlkdWp0dm9rc2xldmp5cm5tY25xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIyODAwOTQsImV4cCI6MjA2Nzg1NjA5NH0.zVRnyFkAiDtUyoCUUM0AmM4fejfs5g01sF9PGzZv6EE"
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  // Supabase environment variables not found - falling back to localStorage
-}
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || FALLBACK_SUPABASE_URL
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || FALLBACK_SUPABASE_KEY
 
-export const supabase = createClient(supabaseUrl || '', supabaseAnonKey || '')
+export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
 // Verificar conexão
 export const testConnection = async () => {
