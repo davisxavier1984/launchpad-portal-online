@@ -1,0 +1,239 @@
+{
+  "meta": {
+    "project": "Mais Gestor - Launchpad Portal",
+    "reviewDate": "2026-02-08",
+    "reviewVersion": "1.0",
+    "status": "awaiting_approval"
+  },
+  "specialists": [
+    {
+      "id": "perf-specialist",
+      "role": "Performance & Bundle Optimization Specialist",
+      "avatar": "PERF"
+    },
+    {
+      "id": "ux-specialist",
+      "role": "UX/UI & Design System Specialist",
+      "avatar": "UX"
+    },
+    {
+      "id": "arch-specialist",
+      "role": "Architecture & Code Quality Specialist",
+      "avatar": "ARCH"
+    },
+    {
+      "id": "a11y-specialist",
+      "role": "Accessibility & SEO Specialist",
+      "avatar": "A11Y"
+    },
+    {
+      "id": "sec-specialist",
+      "role": "Security & Resilience Specialist",
+      "avatar": "SEC"
+    }
+  ],
+  "proposals": [
+    {
+      "id": "P01",
+      "title": "Lazy Loading de Rotas e Code Splitting",
+      "priority": "ALTA",
+      "category": "performance",
+      "proposedBy": "perf-specialist",
+      "endorsedBy": ["arch-specialist"],
+      "status": "pending_approval",
+      "files": ["src/App.tsx"],
+      "problem": "Todas as 4 páginas (Index, Admin, Login, NotFound) são importadas eagerly. Admin.tsx (448 linhas) e MenuAdmin (789 linhas) são carregados mesmo para visitantes que só veem a landing page.",
+      "solution": "Usar React.lazy() + Suspense para rotas /admin e /login. Manter Index eager por ser a rota principal.",
+      "impact": "Redução estimada de ~40% no bundle inicial para visitantes da landing page.",
+      "effort": "baixo"
+    },
+    {
+      "id": "P02",
+      "title": "Substituir Scroll Animations por Intersection Observer",
+      "priority": "ALTA",
+      "category": "performance",
+      "proposedBy": "perf-specialist",
+      "endorsedBy": ["ux-specialist", "a11y-specialist"],
+      "status": "pending_approval",
+      "files": ["src/pages/Index.tsx"],
+      "problem": "Index.tsx (linhas 16-157) usa querySelectorAll em 6 seletores diferentes a cada evento de scroll para manipular DOM diretamente. Mesmo com requestAnimationFrame, são ~30+ queries DOM por frame durante scroll.",
+      "solution": "Substituir por IntersectionObserver API para reveal animations. Para zoom/parallax suaves, usar CSS scroll-driven animations ou uma lib leve como framer-motion (já que a maioria dos efeitos é scale + opacity).",
+      "impact": "Melhora significativa em Scroll Performance (CLS e INP). Elimina jank em dispositivos móveis.",
+      "effort": "medio"
+    },
+    {
+      "id": "P03",
+      "title": "Remover React Query Não-Utilizado e Adotar ou Remover",
+      "priority": "ALTA",
+      "category": "architecture",
+      "proposedBy": "arch-specialist",
+      "endorsedBy": ["perf-specialist"],
+      "status": "pending_approval",
+      "files": ["src/App.tsx", "src/hooks/useNews.ts", "src/hooks/useMenu.ts"],
+      "problem": "@tanstack/react-query está instalado e provisionado como Provider (App.tsx:4,16) mas ZERO queries/mutations usam ele. Todo data fetching é manual com useState+useEffect. Isso adiciona ~13KB ao bundle sem benefício.",
+      "solution": "Opção A: Remover React Query e manter hooks manuais. Opção B: Migrar useNews e useMenu para useQuery/useMutation (recomendado - ganha cache, dedup, retry, stale-while-revalidate grátis).",
+      "impact": "Opção A: -13KB bundle. Opção B: Melhor UX com cache inteligente, retry automático, e loading states granulares.",
+      "effort": "medio"
+    },
+    {
+      "id": "P04",
+      "title": "Unificar Hooks de Autenticação Duplicados",
+      "priority": "ALTA",
+      "category": "architecture",
+      "proposedBy": "arch-specialist",
+      "endorsedBy": ["sec-specialist"],
+      "status": "pending_approval",
+      "files": ["src/contexts/AuthContext.tsx", "src/hooks/useAuth.ts"],
+      "problem": "Existem DOIS sistemas de auth: AuthContext.tsx (simples, usado pelo app) e useAuth.ts (complexo, com RBAC de 4 níveis). O useAuth.ts implementa permissões robustas (super_admin, admin, editor, viewer) mas NÃO é usado. AuthContext.tsx não tem controle de roles.",
+      "solution": "Unificar em um único AuthContext que incorpora o sistema RBAC do useAuth.ts. Remover a duplicidade.",
+      "impact": "Código mais limpo, eliminação de confusão para devs, e RBAC funcional no app.",
+      "effort": "medio"
+    },
+    {
+      "id": "P05",
+      "title": "Adicionar Error Boundaries nas Rotas",
+      "priority": "ALTA",
+      "category": "resilience",
+      "proposedBy": "sec-specialist",
+      "endorsedBy": ["ux-specialist", "arch-specialist"],
+      "status": "pending_approval",
+      "files": ["src/App.tsx"],
+      "problem": "Zero Error Boundaries no app. Qualquer erro JavaScript em um componente causa tela branca completa sem mensagem ao usuário.",
+      "solution": "Criar ErrorBoundary component com UI amigável de fallback. Envolver cada rota com Error Boundary independente.",
+      "impact": "Elimina tela branca em erros. O resto do app continua funcional se uma seção falha.",
+      "effort": "baixo"
+    },
+    {
+      "id": "P06",
+      "title": "Acessibilidade do Menu Dropdown (Keyboard Navigation)",
+      "priority": "MEDIA",
+      "category": "accessibility",
+      "proposedBy": "a11y-specialist",
+      "endorsedBy": ["ux-specialist"],
+      "status": "pending_approval",
+      "files": ["src/components/Header.tsx"],
+      "problem": "Menu desktop (Header.tsx:79-110) usa CSS group-hover para dropdowns. Inacessível via teclado - usuários que navegam com Tab não conseguem abrir submenus. Mobile menu não tem aria-expanded nos botões de submenu.",
+      "solution": "Adicionar onFocus/onBlur handlers para dropdown desktop. Adicionar aria-expanded, aria-haspopup e role='menu' nos submenus. Suportar teclas Arrow para navegação dentro dos menus.",
+      "impact": "WCAG 2.1 AA compliance. Acessível para ~15% dos usuários que usam teclado ou leitores de tela.",
+      "effort": "medio"
+    },
+    {
+      "id": "P07",
+      "title": "Skeleton Loading States no Lugar de 'Carregando...'",
+      "priority": "MEDIA",
+      "category": "ux",
+      "proposedBy": "ux-specialist",
+      "endorsedBy": ["perf-specialist"],
+      "status": "pending_approval",
+      "files": ["src/components/Header.tsx", "src/components/News.tsx", "src/pages/Admin.tsx"],
+      "problem": "Loading states são texto simples 'Carregando...' sem estrutura visual. Causa layout shift (CLS) quando conteúdo carrega. Header mostra texto pulsante genérico.",
+      "solution": "Usar componente Skeleton do shadcn/ui (já instalado em src/components/ui/skeleton.tsx) para criar loading states que espelham o layout final.",
+      "impact": "Percepção de velocidade melhorada. Redução de CLS. UX mais profissional.",
+      "effort": "baixo"
+    },
+    {
+      "id": "P08",
+      "title": "Consolidar Inicialização do Cliente Supabase",
+      "priority": "MEDIA",
+      "category": "security",
+      "proposedBy": "sec-specialist",
+      "endorsedBy": ["arch-specialist"],
+      "status": "pending_approval",
+      "files": ["src/lib/supabase.ts", "src/integrations/supabase/client.ts"],
+      "problem": "Existem DOIS arquivos de inicialização do Supabase: lib/supabase.ts (usa env vars) e integrations/supabase/client.ts (credenciais hardcoded). Inconsistência perigosa - um muda, o outro não.",
+      "solution": "Manter apenas src/lib/supabase.ts com env vars. Fazer integrations/supabase/client.ts re-exportar do lib. Remover credenciais hardcoded.",
+      "impact": "Elimina risco de credenciais desatualizadas. Single source of truth.",
+      "effort": "baixo"
+    },
+    {
+      "id": "P09",
+      "title": "Formulário de Contato sem Validação Real",
+      "priority": "MEDIA",
+      "category": "ux",
+      "proposedBy": "ux-specialist",
+      "endorsedBy": ["sec-specialist"],
+      "status": "pending_approval",
+      "files": ["src/components/Contact.tsx"],
+      "problem": "O formulário de contato usa useState manual sem validação. Sem mask de telefone, sem validação de email, sem feedback inline. O formulário não envia dados para lugar nenhum (apenas toast de sucesso fake).",
+      "solution": "Migrar para React Hook Form + Zod (já instalados). Adicionar input masks para telefone. Implementar envio real via Supabase function ou API externa.",
+      "impact": "Formulário funcional de verdade. Validação inline melhora conversão.",
+      "effort": "medio"
+    },
+    {
+      "id": "P10",
+      "title": "Habilitar TypeScript Strict Mode",
+      "priority": "MEDIA",
+      "category": "architecture",
+      "proposedBy": "arch-specialist",
+      "endorsedBy": ["sec-specialist"],
+      "status": "pending_approval",
+      "files": ["tsconfig.app.json"],
+      "problem": "noImplicitAny:false, strictNullChecks:false, noUnusedLocals:false, noUnusedParameters:false. Isso permite bugs silenciosos como acessar .property de undefined, variáveis any sem querer, e código morto não detectado.",
+      "solution": "Habilitar strict:true incrementalmente. Corrigir os ~4 usos de 'any' existentes. Adicionar tipos explícitos onde necessário.",
+      "impact": "Previne bugs em tempo de compilação. Melhora DX com autocompletion mais preciso.",
+      "effort": "medio"
+    },
+    {
+      "id": "P11",
+      "title": "Remover console.log de Produção",
+      "priority": "BAIXA",
+      "category": "quality",
+      "proposedBy": "arch-specialist",
+      "endorsedBy": ["sec-specialist", "perf-specialist"],
+      "status": "pending_approval",
+      "files": ["multiple"],
+      "problem": "44 ocorrências de console.log/error no código. Expõem informações internas no DevTools de usuários. Incluem dados de conexão, estados de operações CRUD, e erros detalhados.",
+      "solution": "Remover console.logs de informação. Manter console.error para erros críticos mas sem dados sensíveis. Opcionalmente, criar um logger service com níveis (dev/prod).",
+      "impact": "Código mais limpo. Menos exposição de informação interna.",
+      "effort": "baixo"
+    },
+    {
+      "id": "P12",
+      "title": "Adicionar Meta Tags SEO e Open Graph Completas",
+      "priority": "BAIXA",
+      "category": "seo",
+      "proposedBy": "a11y-specialist",
+      "endorsedBy": ["ux-specialist"],
+      "status": "pending_approval",
+      "files": ["index.html"],
+      "problem": "Faltam: og:type, og:url, og:title, og:description, twitter:card tags, canonical URL, theme-color para mobile, e structured data (Schema.org).",
+      "solution": "Adicionar meta tags completas no index.html. Adicionar Schema.org JSON-LD para Organization e WebSite.",
+      "impact": "Melhor preview em redes sociais. Melhor indexação por buscadores.",
+      "effort": "baixo"
+    },
+    {
+      "id": "P13",
+      "title": "Componentizar Index.tsx (1128 linhas -> Componentes Menores)",
+      "priority": "BAIXA",
+      "category": "architecture",
+      "proposedBy": "arch-specialist",
+      "endorsedBy": ["perf-specialist"],
+      "status": "pending_approval",
+      "files": ["src/pages/Index.tsx"],
+      "problem": "Index.tsx tem 174 linhas mas as animações de scroll (linhas 15-157) dominam a lógica. Toda a lógica de scroll está acoplada à página ao invés de ser um hook reutilizável.",
+      "solution": "Extrair lógica de scroll para useScrollAnimations() hook customizado. Simplificar Index.tsx para apenas composição de componentes.",
+      "impact": "Melhor separação de concerns. Hook reutilizável se novas páginas precisarem de animações.",
+      "effort": "baixo"
+    },
+    {
+      "id": "P14",
+      "title": "Links de Redes Sociais com href='#'",
+      "priority": "BAIXA",
+      "category": "ux",
+      "proposedBy": "ux-specialist",
+      "endorsedBy": ["a11y-specialist"],
+      "status": "pending_approval",
+      "files": ["src/components/Contact.tsx", "src/components/Footer.tsx"],
+      "problem": "Links de redes sociais (Facebook, Instagram, LinkedIn, YouTube) usam href='#' - não levam a lugar algum. Experiência frustrante para o usuário.",
+      "solution": "Substituir por URLs reais das redes sociais da Mais Gestor, ou remover os links se não existirem.",
+      "impact": "UX honesta - links fazem o que prometem.",
+      "effort": "baixo"
+    }
+  ],
+  "implementationOrder": [
+    {"phase": 1, "label": "Quick Wins (Baixo Esforço, Alto Impacto)", "proposals": ["P01", "P05", "P07", "P08", "P11"]},
+    {"phase": 2, "label": "Performance & Architecture", "proposals": ["P02", "P03", "P04"]},
+    {"phase": 3, "label": "UX & Acessibilidade", "proposals": ["P06", "P09", "P13"]},
+    {"phase": 4, "label": "Qualidade & Polish", "proposals": ["P10", "P12", "P14"]}
+  ]
+}
