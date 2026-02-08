@@ -19,10 +19,7 @@ const Hero = () => {
     const video = videoRef.current;
     if (video) {
       const handleLoadedData = () => setVideoLoaded(true);
-      const handleError = () => {
-        setVideoError(true);
-        console.log('Video failed to load, using fallback image');
-      };
+      const handleError = () => setVideoError(true);
 
       video.addEventListener('loadeddata', handleLoadedData);
       video.addEventListener('error', handleError);
