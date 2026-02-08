@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase, testConnection } from '@/lib/supabase';
 import { NewsItem, NewsCategory } from '@/types/news';
-import { validateNewsData, validateCategoryData, rateLimiter } from '@/lib/security';
+import { validateNewsData, rateLimiter } from '@/lib/security';
 
 const STORAGE_KEYS = {
   NEWS: 'news-items-backup',
@@ -62,7 +62,6 @@ export const useNews = () => {
     const checkConnection = async () => {
       const connected = await testConnection();
       setIsOnline(connected);
-      console.log(connected ? '✅ Conectado ao Supabase' : '⚠️ Usando localStorage como fallback');
     };
     checkConnection();
   }, []);
@@ -102,7 +101,7 @@ export const useNews = () => {
       localStorage.setItem(STORAGE_KEYS.CATEGORIES, JSON.stringify(formattedCategories));
       return formattedCategories;
     } catch (error) {
-      console.error('Erro ao buscar categorias:', error);
+      console.error('Erro ao buscar categorias');
       // Fallback para localStorage
       const stored = localStorage.getItem(STORAGE_KEYS.CATEGORIES);
       if (stored) {
@@ -160,7 +159,7 @@ export const useNews = () => {
       localStorage.setItem(STORAGE_KEYS.NEWS, JSON.stringify(formattedNews));
       return formattedNews;
     } catch (error) {
-      console.error('Erro ao buscar notícias:', error);
+      console.error('Erro ao buscar notícias');
       // Fallback para localStorage
       const stored = localStorage.getItem(STORAGE_KEYS.NEWS);
       if (stored) {
@@ -254,7 +253,7 @@ export const useNews = () => {
 
         setNews(prev => [newItem, ...prev]);
       } catch (supabaseError) {
-        console.error('Erro ao adicionar notícia no Supabase:', supabaseError);
+        console.error('Erro ao adicionar notícia no Supabase');
         // Fallback para localStorage apenas para erros de conexão
         const newItem: NewsItem = {
           ...validatedData,
@@ -338,7 +337,7 @@ export const useNews = () => {
         item.id === id ? { ...item, ...updatedItem } : item
       ));
     } catch (error) {
-      console.error('Erro ao atualizar notícia:', error);
+      console.error('Erro ao atualizar notícia');
       // Fallback para localStorage
       setNews(prev => prev.map(item => 
         item.id === id ? { ...item, ...updatedItem } : item
@@ -367,7 +366,7 @@ export const useNews = () => {
       // Atualizar estado local
       setNews(prev => prev.filter(item => item.id !== id));
     } catch (error) {
-      console.error('Erro ao deletar notícia:', error);
+      console.error('Erro ao deletar notícia');
       // Fallback para localStorage
       setNews(prev => prev.filter(item => item.id !== id));
     }

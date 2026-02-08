@@ -4,7 +4,7 @@ const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
 if (!supabaseUrl || !supabaseAnonKey) {
-  console.warn('Variáveis de ambiente do Supabase não encontradas. Usando fallback para localStorage.')
+  // Supabase environment variables not found - falling back to localStorage
 }
 
 export const supabase = createClient(supabaseUrl || '', supabaseAnonKey || '')
@@ -12,11 +12,11 @@ export const supabase = createClient(supabaseUrl || '', supabaseAnonKey || '')
 // Verificar conexão
 export const testConnection = async () => {
   try {
-    const { data, error } = await supabase.from('categories').select('count').limit(1)
+    const { error } = await supabase.from('categories').select('count').limit(1)
     if (error) throw error
     return true
   } catch (error) {
-    console.error('Erro na conexão com Supabase:', error)
+    console.error('Erro na conexão com Supabase')
     return false
   }
 }

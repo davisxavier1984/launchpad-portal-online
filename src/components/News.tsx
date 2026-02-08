@@ -5,20 +5,37 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { CalendarDays, User, Clock } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { CalendarDays, User } from "lucide-react";
 import { NewsItem } from "@/types/news";
 
 const News = () => {
   const { getActiveNews, getNewsByCategory, categories, loading } = useNews();
-  const [selectedNews, setSelectedNews] = useState<NewsItem | null>(null);
+  const [, setSelectedNews] = useState<NewsItem | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
   if (loading) {
     return (
       <section id="news" className="py-24 bg-gray-50">
         <div className="container mx-auto container-padding">
-          <div className="text-center">
-            <div className="animate-pulse">Carregando notícias...</div>
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <Skeleton className="h-10 w-64 mx-auto mb-4" />
+            <Skeleton className="h-5 w-96 mx-auto" />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[1, 2, 3].map((i) => (
+              <Card key={i} className="glass-card">
+                <Skeleton className="h-48 w-full rounded-t-lg" />
+                <CardHeader>
+                  <Skeleton className="h-6 w-3/4 mb-2" />
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-2/3" />
+                </CardHeader>
+                <CardContent>
+                  <Skeleton className="h-10 w-full" />
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </section>

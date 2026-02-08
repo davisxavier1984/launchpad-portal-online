@@ -13,6 +13,7 @@ import { Switch } from "@/components/ui/switch";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Plus, Edit, Trash2, Eye, EyeOff, ArrowLeft, Save, Menu as MenuIcon, Newspaper, LogOut } from "lucide-react";
 import { NewsItem } from "@/types/news";
 import { useNavigate } from "react-router-dom";
@@ -136,8 +137,27 @@ const Admin = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-pulse text-lg">Carregando...</div>
+      <div className="min-h-screen bg-gray-50">
+        <header className="bg-white shadow-sm border-b">
+          <div className="container mx-auto container-padding py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <Skeleton className="h-10 w-32" />
+                <Skeleton className="h-10 w-10 rounded-lg" />
+                <Skeleton className="h-8 w-48" />
+              </div>
+              <Skeleton className="h-10 w-20" />
+            </div>
+          </div>
+        </header>
+        <main className="container mx-auto container-padding py-8">
+          <Skeleton className="h-10 w-full max-w-md mb-8" />
+          <div className="space-y-4">
+            {[1, 2, 3, 4].map((i) => (
+              <Skeleton key={i} className="h-16 w-full" />
+            ))}
+          </div>
+        </main>
       </div>
     );
   }

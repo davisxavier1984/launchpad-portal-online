@@ -21,22 +21,6 @@ const convertDbToSubMenuItem = (dbSubItem: DbMenuSubItem): SubMenuItem => ({
   isActive: dbSubItem.is_active
 });
 
-const convertMenuItemToDb = (item: MenuItem): Partial<DbMenuItem> => ({
-  name: item.name,
-  href: item.href,
-  order_position: item.order,
-  is_active: item.isActive,
-  has_submenu: item.hasSubmenu
-});
-
-const convertSubMenuItemToDb = (subItem: SubMenuItem, parentId: string): Partial<DbMenuSubItem> => ({
-  parent_id: parentId,
-  name: subItem.name,
-  href: subItem.href,
-  order_position: subItem.order,
-  is_active: subItem.isActive
-});
-
 const DEFAULT_MENU_ITEMS: MenuItem[] = [
   {
     id: '1',
@@ -109,7 +93,7 @@ export const useMenu = () => {
         .order('order_position');
 
       if (menuError) {
-        console.error('Erro ao carregar menu do banco:', menuError);
+        console.error('Erro ao carregar menu do banco');
         throw menuError;
       }
 
@@ -120,7 +104,7 @@ export const useMenu = () => {
         .order('order_position');
 
       if (subError) {
-        console.error('Erro ao carregar subitens do banco:', subError);
+        console.error('Erro ao carregar subitens do banco');
         throw subError;
       }
 
@@ -135,7 +119,7 @@ export const useMenu = () => {
 
       return menuItems;
     } catch (error) {
-      console.error('Erro ao carregar menu do banco:', error);
+      console.error('Erro ao carregar menu do banco');
       throw error;
     }
   };
@@ -149,7 +133,7 @@ export const useMenu = () => {
         return parsedMenu.items;
       }
     } catch (error) {
-      console.error('Erro ao carregar menu do localStorage:', error);
+      console.error('Erro ao carregar menu do localStorage');
     }
     return DEFAULT_MENU_ITEMS;
   };
@@ -163,7 +147,7 @@ export const useMenu = () => {
       };
       localStorage.setItem('menuConfiguration', JSON.stringify(config));
     } catch (error) {
-      console.error('Erro ao salvar menu no localStorage:', error);
+      console.error('Erro ao salvar menu no localStorage');
     }
   };
 
@@ -178,7 +162,6 @@ export const useMenu = () => {
         // Faz backup no localStorage
         saveMenuToLocalStorage(menuFromDb);
       } catch (error) {
-        console.warn('Falha ao carregar do banco, usando localStorage:', error);
         // Fallback para localStorage
         const menuFromLocal = loadMenuFromLocalStorage();
         setMenuItems(menuFromLocal);
@@ -200,9 +183,8 @@ export const useMenu = () => {
       // Salva backup no localStorage
       saveMenuToLocalStorage(items);
       
-      console.log('Menu salvo no estado e localStorage');
     } catch (error) {
-      console.error('Erro ao salvar configuração do menu:', error);
+      console.error('Erro ao salvar configuração do menu');
     }
   };
 
@@ -229,7 +211,7 @@ export const useMenu = () => {
       
       return newItem;
     } catch (error) {
-      console.error('Erro ao adicionar item do menu:', error);
+      console.error('Erro ao adicionar item do menu');
       // Fallback: adiciona apenas localmente
       const newItem: MenuItem = {
         id: Date.now().toString(),
@@ -267,7 +249,7 @@ export const useMenu = () => {
       );
       await saveMenuConfiguration(updatedItems);
     } catch (error) {
-      console.error('Erro ao atualizar item do menu:', error);
+      console.error('Erro ao atualizar item do menu');
       // Fallback: atualiza apenas localmente
       const updatedItems = menuItems.map(item => 
         item.id === id ? { ...item, ...updates } : item
@@ -289,7 +271,7 @@ export const useMenu = () => {
       const updatedItems = menuItems.filter(item => item.id !== id);
       await saveMenuConfiguration(updatedItems);
     } catch (error) {
-      console.error('Erro ao deletar item do menu:', error);
+      console.error('Erro ao deletar item do menu');
       // Fallback: remove apenas localmente
       const updatedItems = menuItems.filter(item => item.id !== id);
       await saveMenuConfiguration(updatedItems);
@@ -324,7 +306,7 @@ export const useMenu = () => {
       
       await saveMenuConfiguration(updatedItems);
     } catch (error) {
-      console.error('Erro ao adicionar subitem:', error);
+      console.error('Erro ao adicionar subitem');
       // Fallback: adiciona apenas localmente
       const newSubItem: SubMenuItem = {
         id: Date.now().toString(),
@@ -374,7 +356,7 @@ export const useMenu = () => {
       
       await saveMenuConfiguration(updatedItems);
     } catch (error) {
-      console.error('Erro ao atualizar subitem:', error);
+      console.error('Erro ao atualizar subitem');
       // Fallback: atualiza apenas localmente
       const updatedItems = menuItems.map(item => {
         if (item.id === parentId && item.submenu) {
@@ -414,7 +396,7 @@ export const useMenu = () => {
       
       await saveMenuConfiguration(updatedItems);
     } catch (error) {
-      console.error('Erro ao deletar subitem:', error);
+      console.error('Erro ao deletar subitem');
       // Fallback: remove apenas localmente
       const updatedItems = menuItems.map(item => {
         if (item.id === parentId && item.submenu) {
@@ -452,9 +434,6 @@ export const useMenu = () => {
       order: index + 1
     }));
     
-    console.log('Antes:', sortedItems.map(i => `${i.name}:${i.order}`));
-    console.log('Depois:', updatedItems.map(i => `${i.name}:${i.order}`));
-    
     try {
       // Atualizar todas as ordens no banco
       const updates = updatedItems.map(item => ({
@@ -468,11 +447,11 @@ export const useMenu = () => {
           .update({ order_position: update.order_position })
           .eq('id', update.id);
       }
-      
+
       await saveMenuConfiguration(updatedItems);
       return true;
     } catch (error) {
-      console.error('Erro ao mover item:', error);
+      console.error('Erro ao mover item');
       // Fallback: salva apenas localmente
       await saveMenuConfiguration(updatedItems);
       return true;
@@ -483,25 +462,22 @@ export const useMenu = () => {
   const moveItemDown = async (id: string) => {
     const sortedItems = [...menuItems].sort((a, b) => a.order - b.order);
     const currentIndex = sortedItems.findIndex(item => item.id === id);
-    
+
     if (currentIndex >= sortedItems.length - 1) {
       return false; // Já é o último item
     }
-    
+
     // Reorganizar array: mover item atual para posição seguinte
     const newSortedItems = [...sortedItems];
     const [movedItem] = newSortedItems.splice(currentIndex, 1);
     newSortedItems.splice(currentIndex + 1, 0, movedItem);
-    
+
     // Reatribuir ordens sequenciais
     const updatedItems = newSortedItems.map((item, index) => ({
       ...item,
       order: index + 1
     }));
-    
-    console.log('Antes:', sortedItems.map(i => `${i.name}:${i.order}`));
-    console.log('Depois:', updatedItems.map(i => `${i.name}:${i.order}`));
-    
+
     try {
       // Atualizar todas as ordens no banco
       const updates = updatedItems.map(item => ({
@@ -515,11 +491,11 @@ export const useMenu = () => {
           .update({ order_position: update.order_position })
           .eq('id', update.id);
       }
-      
+
       await saveMenuConfiguration(updatedItems);
       return true;
     } catch (error) {
-      console.error('Erro ao mover item:', error);
+      console.error('Erro ao mover item');
       // Fallback: salva apenas localmente
       await saveMenuConfiguration(updatedItems);
       return true;
@@ -538,7 +514,7 @@ export const useMenu = () => {
       const menuFromDb = await loadMenuFromDatabase();
       await saveMenuConfiguration(menuFromDb);
     } catch (error) {
-      console.error('Erro ao restaurar configuração padrão:', error);
+      console.error('Erro ao restaurar configuração padrão');
       // Fallback: usar dados locais padrão
       await saveMenuConfiguration(DEFAULT_MENU_ITEMS);
     }

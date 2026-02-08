@@ -1,5 +1,5 @@
 
-import { BarChart3, CloudCog, Users, Database, Shield, Laptop } from "lucide-react";
+import { CloudCog, Users, Laptop } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Services = () => {
